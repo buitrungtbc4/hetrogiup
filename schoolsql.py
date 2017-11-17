@@ -7,10 +7,14 @@ def select_school(username):
     c = conn.cursor()
     c.execute("SELECT * FROM school WHERE user_name = '%s'" % username)
     row = c.fetchone()
+<<<<<<< HEAD
     if row is None:
         return None
     else:
         school = School(id=row[0], name=row[1], username=row[2], password=row[3], filepath=row[4], predict=row[5])
+=======
+    school = School(id = row[0], name = row[1], username= row[2],password=row[3],filepath=row[4],predict=row[5])
+>>>>>>> 86eea503c7c4ce4080186a143fbe631d25362a27
     conn.close()
     return school
 

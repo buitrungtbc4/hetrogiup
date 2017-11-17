@@ -11,11 +11,8 @@ c = conn.cursor()
 for row in conn.execute('SELECT * FROM school'):
         print row
 
-<<<<<<< HEAD
 username = 'tbu'
-=======
 username = 'hust'
->>>>>>> 86eea503c7c4ce4080186a143fbe631d25362a27
 c.execute("SELECT * FROM school WHERE user_name = '%s'" % username)
 
 f = c.fetchone()

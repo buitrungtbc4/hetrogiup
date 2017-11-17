@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sign-Up/Login Form</title>
+    <link href='/static/css/google-font.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/css/normalize.min.css">
+
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+
+</head>
+
+<body>
+<div class="form">
+
+    <ul class="tab-group">
+        <li class="tab active"><a href="#login">Đăng nhập</a></li>
+
+        <li class="tab"><a href="#signup">Đăng kí</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="login">
+            <h1>Hệ thống dự đoán điểm ngưỡng</h1>
+
+            <form action="/login" method="post">
+
+                <div class="field-wrap">
+                    <label>
+                        Tên đăng nhập<span class="req">*</span>
+                    </label>
+                    <input name="logname" type="text" required autocomplete="off"/>
+                </div>
+
+                <div class="field-wrap">
+                    <label>
+                        Mật khẩu<span class="req">*</span>
+                    </label>
+                    <input name="logpass" type="password" required autocomplete="off"/>
+                </div>
+
+
+                <button class="button button-block"/>
+                Đăng nhập</button>
+
+            </form>
+
+        </div>
+
+        <div id="signup">
+            <h1>Hệ thống dự đoán điểm ngưỡng</h1>
+
+            <form action="/signup" method="post">
+
+                <div class="field-wrap">
+                    <label>
+                        Tên trường đại học<span class="req">*</span>
+                    </label>
+                    <input name="name" type="text" required autocomplete="off"/>
+                </div>
+
+                <div class="field-wrap">
+                    <label>
+                        Tên đăng nhập<span class="req">*</span>
+                    </label>
+                    <input name="username" type="text" required autocomplete="off"/>
+                </div>
+
+                <div class="field-wrap">
+                    <label>
+                        Mật khẩu<span class="req">*</span>
+                    </label>
+                    <input id="password" name="password" type="password" required autocomplete="off"/>
+                </div>
+
+                <div class="field-wrap">
+                    <label>
+                        Xác nhận mật khẩu<span class="req">*</span>
+                    </label>
+                    <input id="confirm_password" type="password" required autocomplete="off"/>
+                </div>
+
+                <button type="submit" class="button button-block"/>
+                Bắt đầu</button>
+
+            </form>
+        </div>
+
+    </div><!-- tab-content -->
+
+</div> <!-- /form -->
+<script src="/static/js/jquery.min.js"></script>
+
+<script src="/static/js/index.js"></script>
+
+<script type="text/javascript">
+			var password = document.getElementById("password")
+			, confirm_password = document.getElementById("confirm_password");
+			function validatePassword(){
+				if(password.value != confirm_password.value) {
+					confirm_password.setCustomValidity("Xác nhận lại mật khẩu");
+				} else {
+					confirm_password.setCustomValidity('');
+				}
+			}
+			password.onchange = validatePassword;
+			confirm_password.onkeyup = validatePassword;
+
+
+</script>
+
+</body>
+</html>

@@ -11,7 +11,6 @@ def select_school(username):
         return None
     else:
         school = School(id=row[0], name=row[1], username=row[2], password=row[3], filepath=row[4], predict=row[5])
-    school = School(id = row[0], name = row[1], username= row[2],password=row[3],filepath=row[4],predict=row[5])
     conn.close()
     return school
 

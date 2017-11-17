@@ -12,7 +12,6 @@ for row in conn.execute('SELECT * FROM school'):
         print row
 
 username = 'tbu'
-username = 'hust'
 c.execute("SELECT * FROM school WHERE user_name = '%s'" % username)
 
 f = c.fetchone()

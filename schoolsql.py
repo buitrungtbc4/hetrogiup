@@ -14,11 +14,11 @@ def select_school(username):
     conn.close()
     return school
 
-#column la ten cot muon update
-def update_column(id,column,result):
+#column la ten cot muon update path_file hoac predict
+def update_column(username,column,result):
     conn = sqlite3.connect('school.db')
     c = conn.cursor()
-    c.execute("UPDATE school SET %s = ? WHERE id = ?" %(column) ,(result , id))
+    c.execute("UPDATE school SET %s = ? WHERE user_name = ?" %(column) ,(result , username))
     print c.fetchone()
     conn.commit()
     conn.close()
@@ -27,10 +27,16 @@ def update_column(id,column,result):
 def insert_school(school):
     conn = sqlite3.connect('school.db')
     c = conn.cursor()
-    c.execute("INSERT INTO school (school_name, user_name, password) VALUES (?, ?, ?)",
-              (school.name, school.usename, school.password))
-    print c.fetchone()
-    conn.commit()
+
+    try:
+        c.execute("INSERT INTO school (school_name, user_name, password) VALUES (?, ?, ?)",
+                  (school.name, school.username, school.password))
+        conn.commit()
+        return True
+    except sqlite3.Error as e:
+        print "Error:", e
+        return False
+
     conn.close()
 
 # print select_school('hust').predict

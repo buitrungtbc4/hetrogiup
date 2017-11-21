@@ -1,3 +1,11 @@
+import json
+
+
+def set_default(obj):
+    if isinstance(obj, set):
+        return list(obj)
+    raise TypeError
+
 class School:
     'day la School class'
 
@@ -5,7 +13,7 @@ class School:
     def __init__(self, id, name, username, password, filepath= None, predict = None ):
         self.id = id
         self.name = name
-        self.usename = username
+        self.username = username
         self.password = password
         self.filepath = filepath
         self.predict = predict
@@ -29,4 +37,15 @@ class School:
 
     def getPredict(self):
         return self.predict
+
+    def serialize(self):
+        return {
+            "id" : self.id,
+            "name" : self.name,
+            "username" : self.username,
+            "password" : self.password,
+            "filepath" : self.filepath,
+            "predict" : self.predict
+        }
+
 

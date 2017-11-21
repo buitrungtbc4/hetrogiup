@@ -7,8 +7,8 @@ c = conn.cursor()
 #create table
 c.execute('''CREATE TABLE school
              (id INTEGER PRIMARY KEY AUTOINCREMENT not null,
-             school_name text unique not null,
-             user_name text not null,
+             school_name text not null,
+             user_name text unique not null,
              password text not null,
              path_file text,
              predict int)''')

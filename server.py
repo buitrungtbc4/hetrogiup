@@ -106,8 +106,8 @@ def trainning():
     filename = select_school(username).filepath
     theta, mu, sigma = strain(path(filename))
     round_theta = np.round(theta,3).tolist()
-    round_mu = round(mu,3)
-    round_sigma = round(sigma,3)
+    round_mu = np.round(mu,3).tolist()
+    round_sigma = np.round(sigma,3).tolist()
     return jsonify(
         theta= round_theta,
         mu= round_mu,

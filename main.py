@@ -72,8 +72,8 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 @app.route('/uploadFile', methods=['GET', 'POST'])
-@app.route('/uploadFile/<message>', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -92,8 +92,7 @@ def upload_file():
             username = session['username']
             update_column(username, 'path_file', filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            message = "Upload file thanh cong"
-            return render_template("home.html", name=message)
+            return redirect('/home')
     return home()
 
 
@@ -105,35 +104,15 @@ def path(filename):
 def trainning():
     username = session['username']
     filename = select_school(username).filepath
-    listColumn, theta, mu, sigma = strain(path(filename))
-    round_theta = np.round(theta, 3).tolist()
-    round_mu = np.round(mu, 3).tolist()
-    round_sigma = np.round(sigma, 3).tolist()
+    theta, mu, sigma = strain(path(filename))
+    round_theta = np.round(theta,3).tolist()
+    round_mu = round(mu,3)
+    round_sigma = round(sigma,3)
     return jsonify(
         theta= round_theta,
         mu= round_mu,
-        sigma= round_sigma,
-        listColumn = listColumn
+        sigma= round_sigma
     )
-
-@app.route('/predict', methods=['GET', 'POST'])
-def predictR():
-
-    # A = [2,3,4]
-    # theta =[1,2,3,4]
-    # mu =[1,2,2]
-    # sigma = [1,1,1]
-    A=[]
-    username = session['username']
-    filename = select_school(username).filepath
-    listColumn, theta, mu, sigma = strain(path(filename))
-    for i in range(0, len(listColumn)-1):
-        A.append(request.form["param"+str(i)].strip())
-    X = np.array(A)
-    predictd = predict(X, theta, mu, sigma).tolist()
-
-    return jsonify(predictd=predictd)
-
 
 
 if __name__ == "__main__":

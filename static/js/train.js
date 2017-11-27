@@ -10,7 +10,7 @@ $(document).ready(()=>{
         success: function(result) {
              $("#theta").text( "Trọng số : " + result['theta']);
              $("#mean").text( "Trung bình : " + result['mu']);
-             $("#sigma").text( "Độ lệch chuẩn : " + result['sigma']);
+             $("#sigma").text( "Độ lệch chuẩn : " + result['sigma']);.
          }
     });
 

@@ -34,7 +34,8 @@ def login():
             session['logged_in'] = True
             session['username'] = username
             session['name'] = school.name
-    return redirect('/home')
+        return redirect('/home')
+    return redirect('/')
 
 
 @app.route('/signup', methods=['POST'])
@@ -56,13 +57,6 @@ def logout():
     return welcome()
 
 
-# @app.route('/uploadFile',methods =['POST'])
-# def uploadFile():
-#     file_val = request.formData["file"]
-#     print file_val
-#     return json.dumps({'status': 'OK', 'data': 'test'})
-
-# config upload fil
 UPLOAD_FOLDER = "upload"
 ALLOWED_EXTENSIONS = set(['xlsx', 'csv', 'xls'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -72,8 +66,8 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
 @app.route('/uploadFile', methods=['GET', 'POST'])
+@app.route('/uploadFile/<message>', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -92,7 +86,8 @@ def upload_file():
             username = session['username']
             update_column(username, 'path_file', filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect('/home')
+            message = "Upload file thanh cong"
+            return render_template("home.html", name=message)
     return home()
 
 
@@ -104,15 +99,32 @@ def path(filename):
 def trainning():
     username = session['username']
     filename = select_school(username).filepath
-    theta, mu, sigma = strain(path(filename))
-    round_theta = np.round(theta,3).tolist()
-    round_mu = np.round(mu,3).tolist()
-    round_sigma = np.round(sigma,3).tolist()
+    listColumn, theta, mu, sigma = strain(path(filename))
+    round_theta = np.round(theta, 3).tolist()
+    round_mu = np.round(mu, 3).tolist()
+    round_sigma = np.round(sigma, 3).tolist()
     return jsonify(
         theta= round_theta,
         mu= round_mu,
-        sigma= round_sigma
+        sigma= round_sigma,
+        listColumn = listColumn
     )
+
+@app.route('/predict', methods=['POST'])
+def predictR():
+    A=[]
+    username = session['username']
+    filename = select_school(username).filepath
+    listColumn, theta, mu, sigma = strain(path(filename))
+    data = request.get_json(force=True)
+    for i in range(0, len(listColumn)-1):
+        key = 'param' + str(i)
+        A.append(float(data[key]))
+    X = np.array(A)
+    print X
+    predictd = predict(X, theta, mu, sigma).tolist()
+    return str(round(predictd[0],2))
+
 
 
 if __name__ == "__main__":

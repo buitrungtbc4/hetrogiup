@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <title>Master Predict</title>
     <meta charset="utf-8">
@@ -9,40 +10,44 @@
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <style>
         /* Remove the navbar's default margin-bottom and rounded borders */
+        
         .navbar {
-          margin-bottom: 0;
-          border-radius: 0;
-      }
-
-      /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-      .row.content {height: 450px}
-
-      /* Set gray background color and 100% height */
-      .sidenav {
-          padding-top: 20px;
-          background-color: #f1f1f1;
-          height: 100%;
-      }
-
-      /* Set black background color, white text and some padding */
-      footer {
-          background-color: #555;
-          color: white;
-          padding: 15px;
-      }
-
-      /* On small screens, set height to 'auto' for sidenav and grid */
-      @media screen and (max-width: 767px) {
-          .sidenav {
-            height: auto;
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        
+        .row.content {
+            height: 450px
+        }
+        /* Set gray background color and 100% height */
+        
+        .sidenav {
+            padding-top: 20px;
+            background-color: #f1f1f1;
+            height: 100%;
+        }
+        /* Set black background color, white text and some padding */
+        
+        footer {
+            background-color: #555;
+            color: white;
             padding: 15px;
         }
-        .row.content {height:auto;}
-    }
-
-
-</style>
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+            .row.content {
+                height: auto;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
     <nav class="navbar navbar-inverse">
@@ -77,12 +82,12 @@
             <div class="row content">
                 <div class="col-sm-3 sidenav">
                     <h3>Thêm/Sửa File</h3>
-                    <form id = "submitFile" method="post" action="/uploadFile" enctype="multipart/form-data">
+                    <form id="submitFile" method="post" action="/uploadFile" enctype="multipart/form-data">
                         <!-- COMPONENT START -->
                         <div class="form-group">
 
                             <div class="input-group input-file">
-                                <input type="text" class="form-control" placeholder='Choose a file...'/>
+                                <input type="text" class="form-control" placeholder='Choose a file...' />
                                 <span class="input-group-btn">
                                     <button class="btn btn-default btn-choose" type="button">Choose</button>
                                 </span>
@@ -94,47 +99,46 @@
                         <div class="form-group">
                             <button id="btnSubmitFile" type="submit" class="btn btn-primary pull-center">Submit</button>
                         </div>
+                        <div class="form-group">
+                            {% if name %}
+                            <p class="text-danger">{{ name }}</p>
+                            {% endif %}
+
+                        </div>
                     </form>
                     <script>
                         function bs_input_file() {
                             $(".input-file").before(
                                 function() {
-                                    if ( ! $(this).prev().hasClass('input-ghost') ) {
+                                    if (!$(this).prev().hasClass('input-ghost')) {
                                         var element = $("<input type='file' name='file' class='input-ghost' style=' height:0'>");
-                                        element.attr("name",$(this).attr("name"));
-                                        element.change(function(){
+                                        element.attr("name", $(this).attr("name"));
+                                        element.change(function() {
                                             element.next(element).find('input').val((element.val()).split('\\').pop());
                                         });
-                                        $(this).find("button.btn-choose").click(function(){
+                                        $(this).find("button.btn-choose").click(function() {
                                             element.click();
                                         });
-                                        $(this).find('input').css("cursor","pointer");
+                                        $(this).find('input').css("cursor", "pointer");
                                         $(this).find('input').mousedown(function() {
-                                            $(this).parents('.input-file').prev().click();
                                             return false;
                                         });
                                         return element;
                                     }
                                 }
-                                );
+                            );
                         }
                         $(function() {
                             bs_input_file();
                         });
-
-
-
                     </script>
-
                 </div>
 
                 <div class="col-sm-6 text-left">
                     <div class="well">
                         <div class="row">
                             <div class="col-sm-3">
-                                <input id="train" type="button" class="btn btn-primary" value="Training"
-                                       {% if not session['uploaded']%}
-                                       disabled {% endif %}>
+                                <input id="train" type="button" class="btn btn-primary" value="Training" {% if not session[ 'uploaded']%} disabled {% endif %}>
                                 <!--if div thanh cong-->
                             </div>
                             <div class="col-sm-9">
@@ -152,57 +156,27 @@
                         <div class="row">
                             <div id="form">
                                 <fieldset>
-                                    <legend style="color:blue;font-weight:bold;">Predict</legend>
+                                    <legend style="color:rgb(0, 145, 255);font-weight:bold;">Predict</legend>
                                     <div class="col-sm-12" style="width: 500px; height:250px; overflow:scroll;">
-                                        <form class="form-horizontal">
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-3">Param 1:</label>
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-8">
-                                                    <input type="email" class="form-control"
-                                                    placeholder="Enter param 1">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-3">Param 2:</label>
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-8">
-                                                    <input type="email" class="form-control"
-                                                    placeholder="Enter param 2">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-3">Param 3:</label>
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-8">
-                                                    <input type="email" class="form-control"
-                                                    placeholder="Enter param 3">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-3">Param 4:</label>
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-8">
-                                                    <input type="email" class="form-control"
-                                                    placeholder="Enter param 4">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-3">Param 5:</label>
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-8">
-                                                    <input type="email" class="form-control"
-                                                    placeholder="Enter param 5">
-                                                </div>
-                                            </div>
+                                        <!-- form data request -->
+                                        <form class="form-horizontal" id="form_predict">
+
                                         </form>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-5 col-sm-12">
-                                            <button type="submit" class="btn btn-danger">Predict</button>
+                                            <input type="button" class="btn btn-danger" id="predict" value="Predict">
                                         </div>
                                     </div>
                                 </fieldset>
+                            </div>
+                        </div>
+                        <div class="row bg-primary text-white" style="height:100px; background:#063847; margin-top:50px">
+                            <div class="col-sm-3">
+                                <label class="text-light">Kết quả: </label>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-light" id="rs"></p>
                             </div>
                         </div>
                     </div>
@@ -216,49 +190,50 @@
             </div>
         </div>
 
-        <footer class="mojFooter"
-        style="height:150px; margin-top:-100px; clear:both; margin-left:50px; margin-right:50px;margin-bottom: 0px;">
-        <font face="Roboto Condensed" size="2">
-            <center>
-                <div class="container">
+        <footer class="mojFooter" style="height:150px; margin-top:-100px; clear:both; margin-left:50px; margin-right:50px;margin-bottom: 0px;">
+            <font face="Roboto Condensed" size="2">
+                <center>
+                    <div class="container">
 
-                    <div class="bottom-footer">
-                        <div class="col-md-3">
-                            <div class="row" style="margin-top: 2px;">
-                                <p> Liên hệ với chúng tôi</p>
-                            </div>
-                            <ul class="footer-nav">
-                                <li><a href="https://www.facebook.com/trungtb96"> Facebook </a></li>
-                                <li><a href="https://twitter.com/"> Twitter </a></li>
-                                <li><a href="https://plus.google.com/"> Google+ </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-
-                    </div>
-                    <div class="col-md-4">
-                        <font face="Roboto Condensed" size="1">
-                            <div class="footer-nav" style="text-align:left;">
-                                <p style="font-size: 20px;margin-left:40px"> MasterPredict.com </p>
-
-                                <ul class="footer-nav" style="text-align: left;">
-                                    <p>Địa chỉ: Đại học bách khoa hà nội</p>
-                                    <p>Điện thoại: 0982 346 789</p>
-                                    <p>Email: group10@gmail.com</p>
+                        <div class="bottom-footer">
+                            <div class="col-md-3">
+                                <div class="row" style="margin-top: 2px;">
+                                    <p> Liên hệ với chúng tôi</p>
+                                </div>
+                                <ul class="footer-nav">
+                                    <li><a href="https://www.facebook.com/trungtb96"> Facebook </a></li>
+                                    <li><a href="https://twitter.com/"> Twitter </a></li>
+                                    <li><a href="https://plus.google.com/"> Google+ </a></li>
                                 </ul>
                             </div>
-                        </font>
-                    </div>
-                </div>
-            </center>
-        </font>
-        <h5 style="text-align: center;">2017 &copy; All Rights Reserved</h5>
-        <!--</footer>-->
-    </footer>
-</div>
-{% endblock %}
+                        </div>
+                        <div class="col-md-5">
 
-<script src="/static/js/train.js"></script>
+                        </div>
+                        <div class="col-md-4">
+                            <font face="Roboto Condensed" size="1">
+                                <div class="footer-nav" style="text-align:left;">
+                                    <p style="font-size: 20px;margin-left:40px"> MasterPredict.com </p>
+
+                                    <ul class="footer-nav" style="text-align: left;">
+                                        <p>Địa chỉ: Đại học bách khoa Hà Nội</p>
+                                        <p>Điện thoại: 0982 346 789</p>
+                                        <p>Email: group10@gmail.com</p>
+                                    </ul>
+                                </div>
+                            </font>
+                        </div>
+                    </div>
+                </center>
+            </font>
+            <h5 style="text-align: center;">2017 &copy; All Rights Reserved</h5>
+            <!--</footer>-->
+        </footer>
+    </div>
+    {% endblock %}
+
+    <script src="/static/js/train.js"></script>
+    <script src="/static/js/predict.js"></script>
 </body>
+
 </html>

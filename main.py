@@ -123,15 +123,15 @@ def predictR():
     # theta =[1,2,3,4]
     # mu =[1,2,2]
     # sigma = [1,1,1]
-    A=[]
-    username = session['username']
-    filename = select_school(username).filepath
+    # A=[]
+    # username = session['username']
+    # filename = select_school(username).filepath
     # listColumn, theta, mu, sigma = strain(path(filename))
     # for i in range(0, len(listColumn)-1):
     #     A.append(request.form["param"+str(i)].strip())
     # X = np.array(A)
     # predictd = predict(X, theta, mu, sigma).tolist()
-    name = request.form['0'].strip().tolist()
+    name = request.form['param0'].strip()
 
     return jsonify(name=name)
 
